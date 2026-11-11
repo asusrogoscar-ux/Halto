@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Activity, AudioLines, ChartNoAxesColumn, CircleUserRound, Clock3, Dumbbell, History, House, Play, Settings, Timer, Waves } from "lucide-react";
+import { AudioLines, ChartNoAxesColumn, CircleUserRound, Clock3, Dumbbell, History, House, Play, Settings, Timer } from "lucide-react";
 
 function formatTime(ms: number) {
   const total = Math.max(0, Math.floor(ms / 1000));
