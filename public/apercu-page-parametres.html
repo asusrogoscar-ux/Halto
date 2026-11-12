@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>HALTO</title>
+<style>
+:root{color-scheme:dark;--bg:#090d12;--panel:#121c27;--line:#29394a;--muted:#91a0b2;--text:#f4f7fb;--lime:#b8ff4a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#20394a,transparent 60%),var(--bg);color:var(--text);font:15px system-ui,sans-serif}.app{max-width:1000px;margin:auto;padding:26px 20px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:35px}.head-actions{display:flex;align-items:center;gap:10px}.settings-open{background:#1b2937;border:1px solid #34485b;color:var(--text);padding:9px 13px;border-radius:10px;font-weight:700;cursor:pointer}.settings-open:hover{border-color:var(--lime);color:var(--lime)}.brand{font-weight:900;letter-spacing:.2em;font-size:22px}.logo{display:inline-grid;place-items:center;background:var(--lime);color:#10150b;width:34px;height:34px;border-radius:10px;margin-right:9px}.pill{border:1px solid var(--line);border-radius:30px;padding:7px 12px;color:var(--muted);font-size:11px}
+h1{font-size:36px;margin:0;letter-spacing:-1.5px}.sub{color:var(--muted);margin:5px 0 25px}.tabs{display:flex;gap:8px;margin-bottom:16px}.tab{background:transparent;color:var(--muted);border:1px solid var(--line);padding:10px 15px;border-radius:10px}.tab.active,.primary{background:var(--lime);color:#10150b;font-weight:800;border-color:var(--lime)}
+.layout{display:grid;grid-template-columns:1.3fr .9fr;gap:16px}.panel{background:linear-gradient(145deg,#162331,#101720);border:1px solid var(--line);border-radius:18px;padding:22px}.timer{min-height:380px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}.muted{color:var(--muted)}.phase{color:var(--lime);font-size:12px;letter-spacing:2px;font-weight:800;margin-top:22px}.clock{font-size:clamp(65px,10vw,100px);font-weight:800;letter-spacing:-6px;margin:10px 0 18px;font-variant-numeric:tabular-nums}.progress{width:80%;height:5px;background:#2b3a49;border-radius:9px;overflow:hidden}.progress span{display:block;height:100%;width:0;background:var(--lime)}.controls{display:flex;gap:9px;margin-top:25px}.primary,.secondary{padding:13px 24px;border-radius:11px;border:1px solid transparent;cursor:pointer;font:inherit}.secondary{background:#263647;color:white;border-color:#34485b}.side{display:grid;gap:16px}.panel h2{font-size:15px;margin:0 0 16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}.field input{width:100%;padding:11px;background:#0a1119;color:white;border:1px solid var(--line);border-radius:9px;font:inherit}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#0a1119;border:1px solid var(--line);border-radius:10px;padding:12px}.stat b{display:block;font-size:21px}.stat small{color:var(--muted)}.sound{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;color:var(--muted);font-size:13px}.sound input{accent-color:var(--lime);width:16px;height:16px}.settings-extra{border-top:1px solid var(--line);margin-top:18px;padding-top:16px}.settings-extra h3{font-size:13px;margin:0 0 13px}.volume-line{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px}.volume-line strong{color:var(--text)}.volume{width:100%;accent-color:var(--lime);margin:10px 0 2px}.foot{text-align:center;color:#718195;font-size:12px;margin:18px}
+@media(max-width:720px){.layout{grid-template-columns:1fr}.app{padding:18px 13px}.timer{min-height:320px}h1{font-size:29px}.pill{display:none}}
+.settings-page{position:fixed;inset:0;z-index:10;background:rgba(5,9,14,.96);backdrop-filter:blur(12px);display:none;overflow:auto;padding:24px 16px}.settings-page.open{display:block}.settings-wrap{max-width:650px;margin:0 auto}.settings-top{display:flex;align-items:center;justify-content:space-between;margin:8px 0 24px}.back{background:#1b2937;color:white;border:1px solid #34485b;border-radius:10px;padding:10px 14px;cursor:pointer}.settings-card{background:linear-gradient(145deg,#162331,#101720);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:14px}.settings-card h2{margin:0 0 7px}.settings-description{color:var(--muted);font-size:13px;margin:0 0 18px}.settings-page .sound{padding:13px 0;border-top:1px solid #263646;margin:0}.settings-page .volume-line{font-size:14px}.settings-page .volume{margin:15px 0 8px}.settings-note{color:#8192a5;font-size:12px;line-height:1.5;margin-top:15px}body.settings-open{overflow:hidden}
+</style></head><body><main class="app">
+<header><div class="brand"><span class="logo">H</span>HALTO</div><div class="head-actions"><span class="pill">APERÇU INTERACTIF · V1</span><button class="settings-open" id="openSettings">⚙ Paramètres</button></div></header>
+<h1>Ton rythme. Tes règles.</h1><p class="sub">Un chronomètre pensé pour tes entraînements.</p>
+<div class="tabs"><button class="tab active" id="muscu">Musculation</button><button class="tab" id="cardio">Cardio / fractionné</button></div>
+<div class="layout"><section class="panel timer">
+<div class="muted" id="name">SÉANCE PERSONNALISÉE</div><div class="phase" id="phase">PRÊT À DÉMARRER</div>
+<div class="clock" id="clock">00:00.0</div><div class="progress"><span id="bar"></span></div>
+<div class="controls"><button class="primary" id="start">Démarrer</button><button class="secondary" id="reset">Réinitialiser</button></div><p class="muted" id="message"></p>
+</section><div class="side">
+<section class="panel"><h2>Paramètres de la séance</h2><div class="fields">
+<div class="field"><label>Séries</label><input id="sets" type="number" min="1" max="30" value="4"></div>
+<div class="field"><label>Répétitions / série</label><input id="reps" type="number" min="1" max="100" value="10"></div>
+<div class="field"><label>Travail (secondes)</label><input id="work" type="number" min="1" value="40"></div>
+<div class="field"><label>Repos (secondes)</label><input id="rest" type="number" min="0" value="60"></div></div>
+</section>
+<section class="panel"><h2>Résumé de la séance</h2><div class="stats"><div class="stat"><b id="ssets">4</b><small>Séries</small></div><div class="stat"><b id="sreps">40</b><small>Répétitions</small></div><div class="stat"><b id="stime">6:40</b><small>Durée estimée</small></div></div></section>
+</div></div><div class="foot">HALTO · Conçu pour accompagner chaque effort</div></main>
+<section class="settings-page" id="settingsPage" aria-hidden="true">
+<div class="settings-wrap">
+<div class="settings-top"><div><div class="brand"><span class="logo">H</span>HALTO</div><p class="muted" style="margin:8px 0 0">Personnalise les alertes de tes entraînements.</p></div><button class="back" id="closeSettings">← Retour</button></div>
+<div class="settings-card">
+<h2>Paramètres sonores</h2><p class="settings-description">Choisis comment HALTO t'accompagne pendant tes séances.</p>
+<div class="volume-line"><label for="volume">Volume sonore</label><strong id="volumeValue">60 %</strong></div>
+<input class="volume" id="volume" type="range" min="0" max="100" value="60">
+<label class="sound"><span>Vibration (si disponible)</span><input id="vibrate" type="checkbox"></label>
+<label class="sound"><span>Signal sonore chaque seconde</span><input id="tickSound" type="checkbox"></label>
+<label class="sound"><span>Signal au début de la séance</span><input id="startSound" type="checkbox" checked></label>
+<label class="sound"><span>Signal à la fin de la séance</span><input id="endSound" type="checkbox" checked></label>
+<p class="settings-note">La vibration dépend de ton appareil et de ton navigateur. Sur certains ordinateurs, elle n'est pas disponible.</p>
+</div></div></section>
+<script>
+const $=x=>document.getElementById(x);let mode='muscu',running=false,phase='ready',set=1,rep=1,left=0,last=0,raf,lastTickSecond=null;
+const v=()=>({sets:Math.max(1,+$('sets').value||1),reps:Math.max(1,+$('reps').value||1),work:Math.max(1,+$('work').value||1),rest:Math.max(0,+$('rest').value||0)});
+function summary(){let a=v(),t=mode==='muscu'?a.sets*(a.work*a.reps+a.rest):a.sets*(a.work+a.rest);$('ssets').textContent=a.sets;$('sreps').textContent=mode==='muscu'?a.sets*a.reps:a.sets;$('stime').textContent=Math.floor(t/60)+':'+String(t%60).padStart(2,'0')}
+function label(){let a=v();if(phase==='work')return mode==='muscu'?`SÉRIE ${set}/${a.sets} · RÉP. ${rep}/${a.reps}`:`EFFORT ${set}/${a.sets}`;return phase==='rest'?'RÉCUPÉRATION':phase==='done'?'SÉANCE TERMINÉE':'PRÊT À DÉMARRER'}
+function render(){ $('clock').textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(Math.floor(left%60)).padStart(2,'0')+'.'+Math.floor(left%1*10);$('phase').textContent=label();let d=phase==='rest'?v().rest:v().work;$('bar').style.width=(d?Math.max(0,Math.min(100,(1-left/d)*100)):0)+'%';$('start').textContent=running?'Pause':phase==='done'?'Recommencer':'Démarrer'}
+let audioContext=null;
+function tone(freq=740,duration=.13){if(+$('volume').value===0)return;try{audioContext=audioContext||new(window.AudioContext||window.webkitAudioContext)();if(audioContext.state==='suspended')audioContext.resume();let o=audioContext.createOscillator(),g=audioContext.createGain(),vol=(+$('volume').value/100)*.12;o.connect(g);g.connect(audioContext.destination);o.frequency.value=freq;g.gain.setValueAtTime(vol,audioContext.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioContext.currentTime+duration);o.start();o.stop(audioContext.currentTime+duration)}catch(e){}}
+function vibrate(pattern=80){if($('vibrate').checked&&navigator.vibrate)navigator.vibrate(pattern)}
+function signal(kind){if(kind==='start'&&$('startSound').checked)tone(660,.22);if(kind==='end'&&$('endSound').checked)tone(880,.35);if(kind==='tick'&&$('tickSound').checked)tone(520,.055);vibrate(kind==='end'?[100,70,180]:kind==='start'?100:35)}
+function beep(){signal('end')}
+function advance(){let a=v();beep();if(phase==='work'){if(mode==='muscu'&&rep<a.reps){rep++;left=a.work}else if(set<a.sets){phase='rest';left=a.rest;if(left===0)advance()}else{phase='done';running=false;$('message').textContent='Bravo, séance terminée !'}}else if(phase==='rest'){set++;rep=1;phase='work';left=a.work}}
+function tick(now){if(!running)return;now=now||performance.now();left-=(now-last)/1000;last=now;let second=Math.ceil(left);if(lastTickSecond===null)lastTickSecond=second;else if(second<lastTickSecond){signal('tick');lastTickSecond=second}if(left<=0){left=0;advance();lastTickSecond=null}render();if(running)raf=requestAnimationFrame(tick)}
+$('start').onclick=()=>{if(running){running=false;cancelAnimationFrame(raf)}else{if(phase==='ready'||phase==='done'){set=1;rep=1;phase='work';left=v().work;$('message').textContent='Bonne séance !';signal('start')}running=true;last=performance.now();lastTickSecond=Math.ceil(left);raf=requestAnimationFrame(tick)}render()};
+$('reset').onclick=()=>{running=false;cancelAnimationFrame(raf);phase='ready';set=1;rep=1;left=0;$('message').textContent='';render()};
+['sets','reps','work','rest'].forEach(id=>$(id).addEventListener('input',summary));
+function setMode(m){mode=m;$('muscu').classList.toggle('active',m==='muscu');$('cardio').classList.toggle('active',m==='cardio');$('reps').disabled=m==='cardio';$('reps').style.opacity=m==='cardio'?.4:1;$('name').textContent=m==='muscu'?'SÉANCE DE MUSCULATION':'SÉANCE DE FRACTIONNÉ';$('reset').click();summary()}
+$('muscu').onclick=()=>setMode('muscu');$('cardio').onclick=()=>setMode('cardio');
+const SOUND_KEYS=['vibrate','tickSound','startSound','endSound'];
+function saveSettings(){try{localStorage.setItem('halto:volume',$('volume').value);SOUND_KEYS.forEach(k=>localStorage.setItem('halto:'+k,$(k).checked?'1':'0'))}catch(e){}}
+function loadSettings(){try{let s=localStorage.getItem('halto:volume');if(s!==null)$('volume').value=Math.max(0,Math.min(100,+s||0));SOUND_KEYS.forEach(k=>{let s2=localStorage.getItem('halto:'+k);if(s2!==null)$(k).checked=s2==='1'})}catch(e){}$('volumeValue').textContent=$('volume').value+' %'}
+loadSettings();
+$('volume').addEventListener('input',()=>{$('volumeValue').textContent=$('volume').value+' %';saveSettings()});
+$('volume').addEventListener('change',()=>{if(+$('volume').value>0)tone(660,.15);saveSettings()});
+SOUND_KEYS.forEach(k=>$(k).addEventListener('change',saveSettings));
+summary();render();
+function openSettingsPage(){$('settingsPage').classList.add('open');$('settingsPage').setAttribute('aria-hidden','false');document.body.classList.add('settings-open')}
+function closeSettingsPage(){$('settingsPage').classList.remove('open');$('settingsPage').setAttribute('aria-hidden','true');document.body.classList.remove('settings-open')}
+$('openSettings').onclick=openSettingsPage;
+$('closeSettings').onclick=closeSettingsPage;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSettingsPage()});
+</script></body></html>
